@@ -1,0 +1,53 @@
+
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+.mvn/
+
+### Angular in 
+src/main/agl-web/dist
+src/main/agl-web/tmp
+src/main/agl-web/out-tsc
+src/main/agl-web/bazel-out
+src/main/agl-web/.vscode
+src/main/agl-web/.angular
+src/main/agl-web/yarn.lock
+# Node
+src/main/agl-web/node_modules
+src/main/agl-web/npm-debug.log
+src/main/agl-web/yarn-error.log
+
+
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+.DS_Store
+Thumbs.db

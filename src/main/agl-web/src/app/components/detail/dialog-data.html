@@ -1,0 +1,26 @@
+<!--  <h1 mat-dialog-title>{{data.title}}</h1>-->
+<div mat-dialog-content>
+  <div > comments
+    <mat-list>
+      <mat-list-item *ngFor="let comment of data.comments" >
+        <span matListItemTitle>
+          <img class="profit-icon-size" src="assets/profit_icon/p{{comment.iconIndex}}.jpg">
+          {{comment.nickname}} {{comment.ts | date: 'YYYY-dd-MM HH:mm:ss'}} </span>
+        <span matListItemLine>{{comment.content}}</span>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+
+    </mat-list>
+  </div>
+
+</div>
+
+<mat-form-field class="comment-full-width" >
+  <mat-label>Leave a comment</mat-label>
+  <textarea [(ngModel)]="commentTxt"  matInput placeholder="发送时请注意提肛......"></textarea>
+</mat-form-field>
+<mat-dialog-actions align="end" >
+  <button mat-button (click)="onCommentSend(commentTxt)" color="primary">Send</button>
+  <button mat-button (click)="onCancelClick()" >Cancel</button>
+</mat-dialog-actions>
+

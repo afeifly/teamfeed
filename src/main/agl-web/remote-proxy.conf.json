@@ -1,0 +1,6 @@
+{
+  "/api": {
+    "target": "http://hk.exmm.top:18081",
+    "secure": false
+  }
+}

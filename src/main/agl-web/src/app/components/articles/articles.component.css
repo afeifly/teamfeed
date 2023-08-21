@@ -1,0 +1,31 @@
+.example-card {
+  max-width: 760px;
+}
+.example-card-mini {
+  max-width: 400px;
+}
+.profit-icon-size{
+  width: 20px;
+}
+.comment-full-width{
+  width: 100% !important;
+}
+.table_foot_note{
+  text-align: right;
+}
+.table_foot_note_font {
+  font-size: small !important;
+}
+.footer-right-space{
+  margin-right: 15px;
+}
+#rss-content img{
+  max-width: 760px;
+}
+#rss-content-mini img{
+
+  max-width: 400px;
+}
+.inner_top{
+  background: white;
+}

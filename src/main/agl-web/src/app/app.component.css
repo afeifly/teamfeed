@@ -1,0 +1,39 @@
+.toolbar-item-spacer {
+  flex: 1 1 auto;
+}
+
+.title-color{
+  color: white;
+}
+.app-container {
+  height: 90%;
+  margin: 0;
+}
+.app-sidenav {
+  width: 230px;
+}
+.app-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.mat-icon-valign{
+  vertical-align: middle;
+  padding-right: 15px;
+}
+.app-home{
+
+  width: 100%;
+}
+
+.profit-icon-size{
+  width: 20px;
+}
+.png-icon{
+  /*margin: 5px auto auto;*/
+  padding: 0;
+  display: inline-block;
+  background-repeat: no-repeat no-repeat;
+  pointer-events: none;
+}

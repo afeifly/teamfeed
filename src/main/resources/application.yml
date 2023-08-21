@@ -1,0 +1,46 @@
+logging:
+  pattern:
+#    console: %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
+
+  level:
+    root: info
+    org:
+      springframework: ERROR
+
+server:
+  port: 18081
+
+spring:
+  devtools:
+    restart:
+      enabled: true
+  datasource:
+#    url: jdbc:postgresql://localhost:5432/testdb
+#    url: jdbc:postgresql://192.168.1.163:15432/selffeed
+    url: jdbc:postgresql://127.0.0.1:15432/selffeed
+    username: postgres
+    password: xuffei
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+  sql:
+    init:
+      mode: always
+
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator #配置端点访问前缀
+      exposure:
+        include: '*' #暴露所有端点
+
+
+max: 145
+
+email:
+  smtp: smtp.163.com
+  username: s@32.com
+  password: xuffei
