@@ -19,6 +19,7 @@ src/main/agl-web/node_modules
 src/main/agl-web/npm-debug.log
 src/main/agl-web/yarn-error.log
 
+src/main/resources/static/
 
 
 ### STS ###
