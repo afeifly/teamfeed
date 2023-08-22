@@ -94,12 +94,15 @@ public class ScheduledTask {
                         feedDao.updateDate(feedPojo.getF_id(), latestDate);
                     }
                 } catch (FeedException e) {
-                    throw new RuntimeException(e);
+                    log.error(e.getMessage());
+                    continue;
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    log.error(e.getMessage());
+                    continue;
                 }
             }
         } catch (SQLException e) {
+            log.error(e.getMessage());
             throw new RuntimeException(e);
         }
 

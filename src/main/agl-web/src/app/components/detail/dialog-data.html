@@ -5,7 +5,7 @@
       <mat-list-item *ngFor="let comment of data.comments" >
         <span matListItemTitle>
           <img class="profit-icon-size" src="assets/profit_icon/p{{comment.iconIndex}}.jpg">
-          {{comment.nickname}} {{comment.ts | date: 'YYYY-dd-MM HH:mm:ss'}} </span>
+          {{comment.nickname}} {{comment.ts | date: 'YYYY-MM-dd HH:mm:ss'}} </span>
         <span matListItemLine>{{comment.content}}</span>
         <mat-divider></mat-divider>
       </mat-list-item>
