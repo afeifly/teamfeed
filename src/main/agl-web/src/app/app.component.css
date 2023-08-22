@@ -6,9 +6,16 @@
   color: white;
 }
 .sub-title{
-  font-size: 11px;
+  font-size: 14px;
 }
-
+.nickname-position{
+  vertical-align: top;
+  padding-left: 12px;
+}
+.nickname-welcome-fz{
+  font-size: 14px;
+  vertical-align: text-bottom;
+}
 .app-container {
   height: 90%;
   margin: 0;

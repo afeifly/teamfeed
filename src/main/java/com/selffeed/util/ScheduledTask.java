@@ -64,12 +64,18 @@ public class ScheduledTask {
                         }
                         if (feedPojo.getDate() == null
                                 || feedPojo.getDate().compareTo(entry.getPublishedDate()) < 0) {
+                            String tmpContent = null;
+                            if(entry.getContents().size()>0){
+                                tmpContent = entry.getContents().get(0).getValue();
+                            }else{
+                                tmpContent = entry.getDescription().getValue();
+                            }
                             articleList.add(Article.builder()
                                     .title(entry.getTitle())
                                     .auther(entry.getAuthor())
                                     .url(entry.getLink())
                                     .ts(entry.getPublishedDate())
-                                    .content(entry.getDescription().getValue())
+                                    .content(tmpContent)
                                     .f_id(feedPojo.getF_id())
                                     .build());
 

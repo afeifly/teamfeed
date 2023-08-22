@@ -22,6 +22,19 @@ public class FeedUtil {
         try {
             feed = new SyndFeedInput().build(new XmlReader(new URL(feedUrl)));
             title = feed.getTitle();
+            //TODO check util
+//            SyndEntry enttri = feed.getEntries().get(1);
+//            System.out.println(enttri.getTitle());
+//            System.out.println(enttri.getTitleEx().getValue());
+//            System.out.println(enttri.getDescription());
+//            if(enttri.getContents().size()>0){
+//                System.out.println("::: content size > 0  ");
+//                System.out.println(enttri.getContents().get(0).getValue());
+//            }else{
+//
+//                System.out.println("::: content size <= 0  ");
+//            }
+
             log.info("fetch feed: "+ title);
         } catch (FeedException e) {
             throw new RuntimeException(e);

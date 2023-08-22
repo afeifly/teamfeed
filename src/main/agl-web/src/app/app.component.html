@@ -17,8 +17,13 @@
 <!--      <img class="png-icon" src="assets/profit_icon/p{{icon_index}}.jpg" style="width: 24px; height: 24px;">-->
     </button>
     <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below" >
+      <div mat-menu-item >
+        <img class="png-icon" src="assets/profit_icon/p{{icon_index}}.jpg" style="width: 24px; height: 24px;">
+        <span class="nickname-position">{{nickname}}</span>
+      </div>
       <button mat-menu-item routerLink="#">
-        <mat-icon>person</mat-icon><span>My Account</span>
+        <mat-icon>person</mat-icon>
+        <span>My Account</span>
       </button>
       <button mat-menu-item routerLink="#">
         <mat-icon>settings</mat-icon><span>Settings</span>
