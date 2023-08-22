@@ -5,6 +5,10 @@
 .title-color{
   color: white;
 }
+.sub-title{
+  font-size: 11px;
+}
+
 .app-container {
   height: 90%;
   margin: 0;
