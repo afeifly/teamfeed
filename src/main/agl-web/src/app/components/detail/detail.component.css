@@ -1,6 +1,9 @@
 .left-margin{
     margin-left: 15px;
 }
+.top-margin{
+  margin-top: 10px;
+}
 .comment-full-width{
     width: 100% !important;
 }

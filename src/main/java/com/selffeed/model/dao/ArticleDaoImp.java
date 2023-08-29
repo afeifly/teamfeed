@@ -137,7 +137,8 @@ public class ArticleDaoImp implements ArticleDao {
                         "from articles a " +
                         "left join articles_users_relative r on a.id = r.fk_a_id " +
                         "left join articles_like l on a.id = l.fk_a_id " +
-                        "where (r.fk_u_id <> ? or r.fk_u_id is null) " +
+                        "and r.fk_u_id = ? " +
+                        "where r.fk_u_id is null " +
                         "and a.fk_f_id = ? " +
                         "group by a.id " +
                         "order by a.id desc limit 20",

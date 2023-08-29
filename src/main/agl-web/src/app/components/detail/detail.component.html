@@ -1,16 +1,16 @@
 <mat-toolbar >
-    <button  mat-icon-button (click)="onFeedClick()" matTooltip="Home">
+    <button  mat-icon-button class="top-margin" (click)="onFeedClick()" matTooltip="Home">
         <mat-icon>arrow_back</mat-icon>
     </button>
-    <a href="javascript:void(0)" (click)="onFeedClick()"><span >返回列表</span></a>
+    <a href="javascript:void(0)" class="top-margin" (click)="onFeedClick()"><span >返回列表</span></a>
     <span class="toolbar-item-spacer"></span>
-    <button mat-icon-button (click)="onFavoriteClick()" *ngIf="like<=0">
+    <button mat-icon-button class="top-margin" (click)="onFavoriteClick()" *ngIf="like<=0">
         <mat-icon>favorite</mat-icon>
     </button>
-    <button mat-icon-button (click)="onFavoriteClick()" *ngIf="like>0" color="warn">
+    <button mat-icon-button class="top-margin" (click)="onFavoriteClick()" *ngIf="like>0" color="warn">
         <mat-icon>favorite</mat-icon>
     </button>
-    <button mat-icon-button  matBadge="{{comments.length}}" matBadgeSize="small" (click)="onCommentClick()">
+    <button mat-icon-button class="top-margin" matBadge="{{comments.length}}" matBadgeOverlap="false" matBadgeSize="small" (click)="onCommentClick()">
         <mat-icon>insert_comment</mat-icon>
     </button>
 </mat-toolbar>
