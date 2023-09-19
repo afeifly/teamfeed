@@ -88,10 +88,15 @@ export class ArticlesComponent {
 
   onClickDialog(id,title,content){
 
-    //TODO check attack
+    //TODO  not content, need detail
     console.log(":"+content);
-    let tmp = content.replaceAll('<img ', '<img style="width: ' +
-      (this.innerWidth-55)+'px; height: auto !important;" ');
+    if(this.uid==null){
+      // console.log("to login")
+      // this.userService.userLoggedIn.next(false);
+      this.router.navigate(['/login']);
+    }
+    // let tmp = content.replaceAll('<img ', '<img style="width: ' +
+    //   (this.innerWidth-55)+'px; height: auto !important;" ');
 
 
 
@@ -106,17 +111,29 @@ export class ArticlesComponent {
       ).subscribe(
         (response) => {
           if(response>2){
-            //Can open and read.
-            sessionStorage.setItem('attack',response);
-            this.router.navigate(['/detail',
-              {a_id: id,
-                title: title,
-                content: tmp,
-              }]);
+            //TODO send quest to content
+            this.http.get<any>('/api/article/'+id,
+            ).subscribe(
+              (response) => {
+                let tmp = response.content.replaceAll('<img ', '<img style="width: ' +
+                  (this.innerWidth-55)+'px; height: auto !important;" ');
+                //Can open and read.
+                sessionStorage.setItem('attack',response);
+                this.router.navigate(['/detail',
+                  {a_id: id,
+                    title: title,
+                    content: tmp
+                  }]);
+
+              },
+              (error) => {
+                console.log(error);
+              }
+            );
 
           }else{
+            //TODO not only strength less maybe not login
             this.snackBar.open('体力耗尽, 明天再来吧. 多赞多留言,强身健体.', 'OK', {duration: 2000});
-            //TODO error and return.
           }
 
 

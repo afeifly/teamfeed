@@ -10,7 +10,7 @@
     <button mat-icon-button class="top-margin" (click)="onFavoriteClick()" *ngIf="like>0" color="warn">
         <mat-icon>favorite</mat-icon>
     </button>
-    <button mat-icon-button class="top-margin" matBadge="{{comments.length}}" matBadgeOverlap="false" matBadgeSize="small" (click)="onCommentClick()">
+    <button mat-icon-button class="top-margin" matBadge="{{comments?comments.length:'0'}}" matBadgeOverlap="false" matBadgeSize="small" (click)="onCommentClick()">
         <mat-icon>insert_comment</mat-icon>
     </button>
 </mat-toolbar>

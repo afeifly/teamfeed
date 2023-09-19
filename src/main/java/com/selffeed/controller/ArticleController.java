@@ -12,10 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.SQLException;
@@ -44,6 +41,18 @@ public class ArticleController {
         }
         log.info("Query article size = "+ list.size());
         return list;
+    }
+
+    @GetMapping("/api/article/{id}")
+    public Article getArticle(@PathVariable(value = "id") int articleId){
+        Article item = null;
+        //TODO implement DAO
+        try {
+            item = articleDao.getArticle((int) articleId);
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+        }
+        return item;
     }
     @PostMapping("/api/fetch_articles")
     public List<Article> getArticlesForUser(@RequestBody AURelative relative){

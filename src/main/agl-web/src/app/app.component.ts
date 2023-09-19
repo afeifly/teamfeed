@@ -88,8 +88,9 @@ export class AppComponent {
   }
   onClickLogOut() {
     sessionStorage.removeItem('user');
+    sessionStorage.removeItem('user-id');
     sessionStorage.removeItem('user-icon');
-    sessionStorage.removeItem('attack');
+    sessionStorage.removeItem('user-attack');
     this.userService.userLoggedIn.next(false);
     this.router.navigate(['/login']);
   }

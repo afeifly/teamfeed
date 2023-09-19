@@ -26,4 +26,5 @@ public interface ArticleDao {
     public List<Article> getHistoryArticles(int userId) throws SQLException;
 
     public List<ArticleComment> getArticleComments(int articleId) throws SQLException;
+
 }

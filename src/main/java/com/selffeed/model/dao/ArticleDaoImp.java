@@ -45,10 +45,7 @@ public class ArticleDaoImp implements ArticleDao {
 
     }
 
-    @Override
-    public Article getArticle(int id) throws SQLException {
-        return null;
-    }
+
 
     @Override
     public int likeArticle(int articleId, int userId) throws SQLException {
@@ -82,6 +79,35 @@ public class ArticleDaoImp implements ArticleDao {
         });
     }
 
+    public Article getArticle(int articleId) throws SQLException{
+        List<Article> list = jdbcTemplate.query(
+                "select id,content,auther,url,ts " +
+                        "from articles where id=? ",
+                new PreparedStatementSetter() {
+                    public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                        preparedStatement.setInt(1, articleId);
+                    }
+                },
+                new RowMapper<Article>() {
+                    @Override
+                    public Article mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+                        return Article.builder()
+                                .a_id(rs.getInt(1))
+                                .content(rs.getString(2).trim())
+                                .auther(rs.getString(3).trim())
+                                .url(rs.getString(4).trim())
+                                .ts(rs.getTimestamp(5))
+                                .build();
+                    }
+                });
+        log.debug("Get article count = " + list.size());
+        if(list.size()>0){
+            return list.get(0);
+        }else{
+            return null;
+        }
+    }
     public int commentArticle(ArticleComment comment) throws SQLException {
         log.debug("Comment Article");
         String sql = "INSERT INTO article_comments(content,fk_a_id,fk_u_id,ts)  " +
@@ -96,10 +122,12 @@ public class ArticleDaoImp implements ArticleDao {
         });
     }
 
+
     @Override
     public List<Article> getHistoryArticles(int userId) throws SQLException {
         List<Article> list = jdbcTemplate.query(
-                "select a.id,a.title,a.auther,a.url,a.content,a.ts,count(l.fk_u_id) " +
+                "select a.id,a.title,a.auther,a.url,a.ts,count(l.fk_u_id) " +
+//                        "select a.id,a.title,a.auther,a.url,a.content,a.ts,count(l.fk_u_id) " +
                         "from articles a " +
                         "left join articles_users_relative r on a.id = r.fk_a_id " +
                         "left join articles_like l on a.id = l.fk_a_id " +
@@ -120,9 +148,9 @@ public class ArticleDaoImp implements ArticleDao {
                                 .title(rs.getString(2).trim())
                                 .auther(rs.getString(3).trim())
                                 .url(rs.getString(4).trim())
-                                .content(rs.getString(5).trim())
-                                .ts(rs.getTimestamp(6))
-                                .likes(rs.getInt(7))
+//                                .content(rs.getString(5).trim())
+                                .ts(rs.getTimestamp(5))
+                                .likes(rs.getInt(6))
                                 .build();
                     }
                 });
@@ -133,7 +161,8 @@ public class ArticleDaoImp implements ArticleDao {
     @Override
     public List<Article> getArticles(int userId, int feedId) throws SQLException {
         List<Article> list = jdbcTemplate.query(
-                "select a.id,a.title,a.auther,a.url,a.content,a.ts,count(l.fk_u_id) " +
+                "select a.id,a.title,a.auther,a.url,a.ts,count(l.fk_u_id) " +
+//                        "select a.id,a.title,a.auther,a.url,a.content,a.ts,count(l.fk_u_id) " +
                         "from articles a " +
                         "left join articles_users_relative r on a.id = r.fk_a_id " +
                         "left join articles_like l on a.id = l.fk_a_id " +
@@ -141,7 +170,7 @@ public class ArticleDaoImp implements ArticleDao {
                         "where r.fk_u_id is null " +
                         "and a.fk_f_id = ? " +
                         "group by a.id " +
-                        "order by a.id desc limit 20",
+                        "order by a.id desc limit 50",
                 new PreparedStatementSetter() {
                     public void setValues(PreparedStatement preparedStatement) throws SQLException {
                         preparedStatement.setInt(1, userId);
@@ -157,9 +186,9 @@ public class ArticleDaoImp implements ArticleDao {
                                 .title(rs.getString(2).trim())
                                 .auther(rs.getString(3).trim())
                                 .url(rs.getString(4).trim())
-                                .content(rs.getString(5).trim())
-                                .ts(rs.getTimestamp(6))
-                                .likes(rs.getInt(7))
+//                                .content(rs.getString(5).trim())
+                                .ts(rs.getTimestamp(5))
+                                .likes(rs.getInt(6))
                                 .build();
                     }
                 });

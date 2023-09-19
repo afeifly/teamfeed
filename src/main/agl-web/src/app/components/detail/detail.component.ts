@@ -49,8 +49,6 @@ export class DetailComponent {
       this.contentStr = ""+params['content'];
       this.content = this.getInnerHTMLValue(this.contentStr);
       this.comments = params['comments']
-      console.log('sdddddddddddd');
-      console.log(this.comments);
     });
 
     this.uid = sessionStorage.getItem('user-id');
@@ -179,9 +177,7 @@ export class DialogDataDialog {
         { headers }
     ).subscribe(
         (response) => {
-          console.log(response);
           this.data.comments.push(item);
-          console.log(txt);
         },
         (error) => {
           console.log(error);
