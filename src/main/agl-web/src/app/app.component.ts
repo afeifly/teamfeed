@@ -126,4 +126,9 @@ export class AppComponent {
     this.router.navigate(['/articles']);
     this.sidenav.close();
   }
+  onClickBuyHouse() {
+
+    this.router.navigate(['/pie']);
+    this.sidenav.close();
+  }
 }

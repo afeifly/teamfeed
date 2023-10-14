@@ -19,9 +19,10 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatButtonModule} from "@angular/material/button";
 import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {NgIf} from "@angular/common";
+import { D3pieComponent } from './components/d3pie/d3pie.component';
 
 @NgModule({
-  declarations: [AppComponent, LogInComponent, RegisterComponent, HomeComponent, ArticlesComponent, DetailComponent],
+  declarations: [AppComponent, LogInComponent, RegisterComponent, HomeComponent, ArticlesComponent, DetailComponent, D3pieComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,

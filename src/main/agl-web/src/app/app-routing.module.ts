@@ -5,6 +5,7 @@ import { RegisterComponent } from './components/register/register.component';
 import {HomeComponent} from "./components/home/home.component";
 import {ArticlesComponent} from "./components/articles/articles.component";
 import {DetailComponent} from "./components/detail/detail.component";
+import {D3pieComponent} from "./components/d3pie/d3pie.component";
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -12,7 +13,8 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'articles', component: ArticlesComponent },
-  { path: 'detail', component: DetailComponent }
+  { path: 'detail', component: DetailComponent },
+  { path: 'pie', component: D3pieComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
