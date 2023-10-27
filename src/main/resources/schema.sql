@@ -25,3 +25,6 @@ CREATE TABLE IF NOT EXISTS article_comments (
     ts  TIMESTAMP,
     fk_a_id integer REFERENCES articles (id),
     fk_u_id integer REFERENCES users (id));
+
+alter table articles alter column auther TYPE varchar(300);
+alter table articles alter column title TYPE varchar(800);
