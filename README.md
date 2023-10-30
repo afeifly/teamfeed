@@ -27,3 +27,7 @@ cd src/main/resources/static \
 
 
 ```
+
+## Debug
+1. run springboot project
+2. ng server --proxy-config proxy.conf.json

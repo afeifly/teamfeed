@@ -46,13 +46,16 @@ export class AppComponent {
     this.welcome += '   ';
 
     this.observer.observe(["(max-width: 800px)"]).subscribe((res) => {
+      if(this.sidenav){
       if (res.matches) {
-        this.sidenav.mode = "over";
-        this.sidenav.close();
-      } else {
-        this.sidenav.mode = "side";
-        this.sidenav.open();
+              this.sidenav.mode = "over";
+              this.sidenav.close();
+            } else {
+              this.sidenav.mode = "side";
+              this.sidenav.open();
+            }
       }
+
     });
   }
 
