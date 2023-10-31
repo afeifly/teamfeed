@@ -26,5 +26,23 @@ CREATE TABLE IF NOT EXISTS article_comments (
     fk_a_id integer REFERENCES articles (id),
     fk_u_id integer REFERENCES users (id));
 
+CREATE TABLE IF NOT EXISTS buildings(
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(99),
+    pre_sell_id integer,
+    ys_project_id integer,
+    fyb_id integer,
+    build_branch VARCHAR(19),
+    ts TIMESTAMP);
+
+ CREATE TABLE IF NOT EXISTS building_sales (
+    id SERIAL PRIMARY KEY,
+    sold integer,
+    unsold integer,
+    percent NUMERIC(4, 2) NOT NULL,
+    ts  TIMESTAMP,
+    fk_b_id integer REFERENCES buildings (id));
+
 alter table articles alter column auther TYPE varchar(300);
 alter table articles alter column title TYPE varchar(800);
+

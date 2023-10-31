@@ -15,7 +15,7 @@ import java.net.URL;
 @Component
 public class PostUtil {
     public static String houseZJJUrl = "http://zjj.sz.gov.cn/szfdcscjy/projectPublish/getHouseInfoListToPublicity";
-    public String checkUrl(int preSellId, int ysProjectId, String fybId, String buildingBranch){
+    public HouseServerOB checkUrl(int preSellId, int ysProjectId, String fybId, String buildingBranch){
         try {
             String jsonPayload = "{\"buildingbranch\": \"" +buildingBranch +
                     "\", " +
@@ -68,16 +68,16 @@ public class PostUtil {
                     HouseServerOB responseObj = gson.fromJson(response.toString(), HouseServerOB.class);
                     System.out.println("Response Object: " + responseObj.toString());
                     responseObj.checkSellStatus();
+                    return responseObj;
                 }
             } else {
                 System.out.println("POST request failed");
             }
 
-            if(1==1) return "xx";
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "xx";
+        return null;
     }
     public static void main(String[] args) {
         log.info("exec post util.");

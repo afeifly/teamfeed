@@ -7,6 +7,7 @@ import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 import com.selffeed.model.dao.ArticleDao;
+import com.selffeed.model.dao.BuildingDao;
 import com.selffeed.model.dao.FeedDao;
 import com.selffeed.model.dao.UserDao;
 import com.selffeed.pojo.Article;
@@ -35,6 +36,15 @@ public class ScheduledTask {
     @Autowired
     UserDao userDao;
 
+    @Autowired
+    BuildingDao buildingDao;
+
+    @Scheduled(fixedRate = 20 * 60 * 60 * 1000)
+    public void fetchBuildingInfo() {
+        log.info("exec building check schedule.");
+        //TODO get all buildings and checking.
+//        buildingDao.getBuildings();
+    }
     @Scheduled(fixedRate = 30 * 60 * 1000)
     public void fetchRSS() {
         log.info("exec schedule.");

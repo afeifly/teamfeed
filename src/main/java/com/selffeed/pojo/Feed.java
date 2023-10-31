@@ -12,6 +12,4 @@ public class Feed {
     String title;
     String url;
     Date date;
-
-
 }
