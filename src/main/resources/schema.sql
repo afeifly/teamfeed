@@ -33,6 +33,9 @@ CREATE TABLE IF NOT EXISTS buildings(
     ys_project_id integer,
     fyb_id integer,
     build_branch VARCHAR(19),
+    sold integer,
+    unsold integer,
+    percent NUMERIC(4, 2) NOT NULL,
     ts TIMESTAMP);
 
  CREATE TABLE IF NOT EXISTS building_sales (

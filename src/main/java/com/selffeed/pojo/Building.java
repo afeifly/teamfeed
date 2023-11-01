@@ -14,6 +14,9 @@ public class Building {
     int ysProjectId;
     int fybId;
     String buildBranch;
+    int sold;
+    int unsold;
+    double percent;
     BuildingSales[] buildingSales;
     Date ts;
 

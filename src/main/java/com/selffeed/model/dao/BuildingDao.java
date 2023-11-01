@@ -18,6 +18,8 @@ public interface BuildingDao {
     public int addSale(BuildingSales bs)
             throws SQLException;
 
+    public int update(Building building) throws SQLException;
+
     public void delete(int id)
             throws SQLException;
     public Building getBuilding(int id)

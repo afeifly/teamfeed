@@ -46,6 +46,20 @@ public class BuildingDaoImp implements BuildingDao{
 
     }
 
+    public int update(Building building) throws SQLException{
+
+        log.debug("Update Building");
+        String sql = "update building_sales set sold = ?, " +
+                "unsold = ?, percent = ?, ts=now() where id = ? ";
+        return jdbcTemplate.update(connection -> {
+            var ps = connection.prepareStatement(sql);
+            ps.setInt(1,building.getSold());
+            ps.setInt(2,building.getUnsold());
+            ps.setDouble(3,building.getPercent());
+            ps.setInt(4, building.getB_id());
+            return ps;
+        });
+    }
     @Override
     public int addSale(BuildingSales bs)
             throws SQLException{
@@ -81,7 +95,9 @@ public class BuildingDaoImp implements BuildingDao{
                     @Override
                     public Building mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-                        return Building.builder()
+                        //try fillAllSales
+
+                        Building building = Building.builder()
                                 .b_id(rs.getInt(1))
                                 .title(rs.getString(2).trim())
                                 .preSellId(rs.getInt(3))
@@ -89,6 +105,10 @@ public class BuildingDaoImp implements BuildingDao{
                                 .fybId(rs.getInt(5))
                                 .buildBranch(rs.getString(6).trim())
                                 .build();
+                        return building;
+//                        building.getB_id()
+//                        List<BuildingSales> list = jdbcTemplate.query(
+//                                "select * from building_sales where b_id = ",
                     }
                 });
         log.debug("Get building count = "+list.size());

@@ -23,8 +23,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@ComponentScan("com.selffeed.model.dao")
-@ComponentScan("com.selffeed.house")
+@ComponentScan({"com.selffeed.model.dao","com.selffeed.house"})
 public class BuildingController {
 
     @Autowired
@@ -43,19 +42,22 @@ public class BuildingController {
                 String.valueOf(building.getFybId()),
                 building.getBuildBranch());
         double percent = tmp.checkSellStatus();
-        BuildingSales bs = BuildingSales.builder()
+        try {
+            BuildingSales bs = BuildingSales.builder()
                 .b_id(building.getB_id())
                 .sold(tmp.getWholeSize() - tmp.getVirginSize())
                 .unsold(tmp.getVirginSize())
                 .percent(percent).build();
-
-        try {
+            building.setSold(tmp.getWholeSize()-tmp.getVirginSize());
+            building.setUnsold(tmp.getVirginSize());
+            building.setPercent(percent);
+            result = buildingDao.update(building);
             result = buildingDao.addSale(bs);
         } catch (SQLException e) {
             log.error(e.getMessage());
         }
 
-        return "result = " + bs.toString();
+        return "result = " + building.toString();
     }
 
     @PostMapping("/api/building")
