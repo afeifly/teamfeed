@@ -31,3 +31,64 @@ cd src/main/resources/static \
 ## Debug
 1. run springboot project
 2. ng server --proxy-config proxy.conf.json
+
+
+## Some source
+```json
+[
+{
+    "title": "云海臻府 3栋",
+    "preSellId": 127569,
+    "ysProjectId": 29042,
+    "fybId": 47820,
+    "buildBranch": "二单元"
+},
+
+{
+  "title": "云海臻府 2栋",
+  "preSellId": 127569,
+  "ysProjectId": 29042,
+  "fybId": 47832,
+  "buildBranch": ""
+},
+  {
+    "title": "云上润府 3栋",
+    "preSellId": 127650,
+    "ysProjectId": 29382,
+    "fybId": 48170,
+    "buildBranch": "四单元"
+  }
+  ,
+  {
+    "title": "云上润府 3栋",
+    "preSellId": 127650,
+    "ysProjectId": 29382,
+    "fybId": 48170,
+    "buildBranch": "三单元"
+  }
+,
+  {
+    "title": "会展湾雍境 6栋",
+    "preSellId": 128686,
+    "ysProjectId": 29925,
+    "fybId": 48892,
+    "buildBranch": ""
+  }
+,
+  {
+    "title": "会展湾雍境 9栋",
+    "preSellId": 128686,
+    "ysProjectId": 29925,
+    "fybId": 48895,
+    "buildBranch": ""
+  }
+,
+  {
+    "title": "鸿荣源珈誉 8栋",
+    "preSellId": 128819,
+    "ysProjectId": 29886,
+    "fybId": 48922,
+    "buildBranch": ""
+  }
+]
+```

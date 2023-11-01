@@ -16,9 +16,9 @@ spring:
       enabled: true
   datasource:
 #    url: jdbc:postgresql://localhost:5432/testdb
-#    url: jdbc:postgresql://192.168.1.163:15432/selffeed
+    url: jdbc:postgresql://192.168.1.163:15432/selffeed
 #    url: jdbc:postgresql://127.0.0.1:15432/selffeed
-    url: jdbc:postgresql://3.0.0.3:15432/selffeed
+#    url: jdbc:postgresql://3.0.0.3:15432/selffeed
     username: postgres
     password: xuffei
     driver-class-name: org.postgresql.Driver
