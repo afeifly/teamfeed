@@ -6,11 +6,15 @@ import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
+import com.selffeed.house.HouseServerOB;
+import com.selffeed.house.PostUtil;
 import com.selffeed.model.dao.ArticleDao;
 import com.selffeed.model.dao.BuildingDao;
 import com.selffeed.model.dao.FeedDao;
 import com.selffeed.model.dao.UserDao;
 import com.selffeed.pojo.Article;
+import com.selffeed.pojo.Building;
+import com.selffeed.pojo.BuildingSales;
 import com.selffeed.pojo.Feed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,15 +43,54 @@ public class ScheduledTask {
     @Autowired
     BuildingDao buildingDao;
 
-    @Scheduled(fixedRate = 20 * 60 * 60 * 1000)
+    @Autowired
+    PostUtil postUtil;
+    public final static long GAP_INTERVAL = 24 * 60 * 60 * 1000;
+//    public final static long GAP_INTERVAL = 60 * 1000;
+    @Scheduled(fixedRate = GAP_INTERVAL)
     public void fetchBuildingInfo() {
         log.info("exec building check schedule.");
-        //TODO get all buildings and checking.
-//        buildingDao.getBuildings();
+        try{
+            List<Building> list = buildingDao.getBuildings();
+            for (Building building : list) {
+                //Check if ts update time is more then 24 hour or not.
+                long gapTime = System.currentTimeMillis()-building.getTs().getTime();
+                if(gapTime > GAP_INTERVAL){
+                    HouseServerOB tmp = postUtil.checkUrl(building.getPreSellId(),
+                            building.getYsProjectId(),
+                            String.valueOf(building.getFybId()),
+                            building.getBuildBranch());
+                    double percent = tmp.checkSellStatus();
+                    try {
+                        BuildingSales bs = BuildingSales.builder()
+                                .b_id(building.getB_id())
+                                .sold(tmp.getWholeSize() - tmp.getVirginSize())
+                                .unsold(tmp.getVirginSize())
+                                .percent(percent).build();
+                        building.setSold(tmp.getWholeSize() - tmp.getVirginSize());
+                        building.setUnsold(tmp.getVirginSize());
+                        building.setPercent(percent);
+                        log.info("update builiding.");
+                        buildingDao.update(building);
+                        log.info("add sales record.");
+                        buildingDao.addSale(bs);
+                    } catch (SQLException e) {
+                        log.error(e.getMessage());
+                    }
+                }else{
+                    log.info("No need exec ... Gap time = " + gapTime);
+                }
+            }
+        }catch(Exception e){
+
+        }
     }
     @Scheduled(fixedRate = 30 * 60 * 1000)
     public void fetchRSS() {
         log.info("exec schedule.");
+        //TODO will delete later
+        if(1==1) return ;
+
         try {
             userDao.increaseAllAttack();
         } catch (SQLException e) {

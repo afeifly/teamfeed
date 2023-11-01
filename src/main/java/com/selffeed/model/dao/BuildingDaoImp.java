@@ -49,7 +49,7 @@ public class BuildingDaoImp implements BuildingDao{
     public int update(Building building) throws SQLException{
 
         log.debug("Update Building");
-        String sql = "update building_sales set sold = ?, " +
+        String sql = "update buildings set sold = ?, " +
                 "unsold = ?, percent = ?, ts=now() where id = ? ";
         return jdbcTemplate.update(connection -> {
             var ps = connection.prepareStatement(sql);
@@ -66,7 +66,7 @@ public class BuildingDaoImp implements BuildingDao{
         log.debug("Add Sales");
         String sql = "INSERT INTO building_sales " +
                 "(sold, unsold, percent, fk_b_id, ts) " +
-                "VALUES (?, ?, ?, ?, now()) where ";
+                "VALUES (?, ?, ?, ?, now())";
         return jdbcTemplate.update(connection -> {
 
             var ps = connection.prepareStatement(sql);
@@ -85,7 +85,29 @@ public class BuildingDaoImp implements BuildingDao{
 
     @Override
     public Building getBuilding(int id) throws SQLException {
-        return null;
+
+        List<BuildingSales> list = jdbcTemplate.query("select sold,unsold,percent,ts from building_sales where fk_b_id="+id,
+            new RowMapper<BuildingSales>(){
+                @Override
+                public BuildingSales mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    BuildingSales bs = BuildingSales.builder()
+                            .sold(rs.getInt(1))
+                            .unsold(rs.getInt(2))
+                            .percent(rs.getDouble(3))
+                            .ts(rs.getTimestamp(4))
+                            .build();
+                    return bs;
+                }
+            });
+        list.size();
+        BuildingSales[] array = new BuildingSales[list.size()];
+        for(int i=0;i<list.size();i++){
+            array[i] = list.get(i);
+        }
+        Building building = Building.builder()
+                .buildingSales(array).build();
+        log.info("Get building: "+ building.toString());
+        return building;
     }
 
     @Override
@@ -104,11 +126,12 @@ public class BuildingDaoImp implements BuildingDao{
                                 .ysProjectId(rs.getInt(4))
                                 .fybId(rs.getInt(5))
                                 .buildBranch(rs.getString(6).trim())
+                                .sold(rs.getInt(7))
+                                .unsold(rs.getInt(8))
+                                .percent(rs.getDouble(9))
+                                .ts(rs.getTimestamp(10))
                                 .build();
                         return building;
-//                        building.getB_id()
-//                        List<BuildingSales> list = jdbcTemplate.query(
-//                                "select * from building_sales where b_id = ",
                     }
                 });
         log.debug("Get building count = "+list.size());

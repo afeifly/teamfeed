@@ -35,14 +35,14 @@ CREATE TABLE IF NOT EXISTS buildings(
     build_branch VARCHAR(19),
     sold integer,
     unsold integer,
-    percent NUMERIC(4, 2) NOT NULL,
+    percent NUMERIC(4, 2),
     ts TIMESTAMP);
 
  CREATE TABLE IF NOT EXISTS building_sales (
     id SERIAL PRIMARY KEY,
     sold integer,
     unsold integer,
-    percent NUMERIC(4, 2) NOT NULL,
+    percent NUMERIC(4, 2),
     ts  TIMESTAMP,
     fk_b_id integer REFERENCES buildings (id));
 

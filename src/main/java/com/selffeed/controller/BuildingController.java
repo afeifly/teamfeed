@@ -12,10 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.SQLException;
@@ -23,7 +20,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@ComponentScan({"com.selffeed.model.dao","com.selffeed.house"})
+@ComponentScan({"com.selffeed.model.dao", "com.selffeed.house"})
 public class BuildingController {
 
     @Autowired
@@ -34,7 +31,7 @@ public class BuildingController {
 
 
     @PostMapping("/api/buildingcheck")
-    public String checkBuilding(@RequestBody Building building) {
+    public Building checkBuilding(@RequestBody Building building) {
         int result = 0;
         //TODO try get sales info
         HouseServerOB tmp = postUtil.checkUrl(building.getPreSellId(),
@@ -44,20 +41,22 @@ public class BuildingController {
         double percent = tmp.checkSellStatus();
         try {
             BuildingSales bs = BuildingSales.builder()
-                .b_id(building.getB_id())
-                .sold(tmp.getWholeSize() - tmp.getVirginSize())
-                .unsold(tmp.getVirginSize())
-                .percent(percent).build();
-            building.setSold(tmp.getWholeSize()-tmp.getVirginSize());
+                    .b_id(building.getB_id())
+                    .sold(tmp.getWholeSize() - tmp.getVirginSize())
+                    .unsold(tmp.getVirginSize())
+                    .percent(percent).build();
+            building.setSold(tmp.getWholeSize() - tmp.getVirginSize());
             building.setUnsold(tmp.getVirginSize());
             building.setPercent(percent);
+            log.info("update builiding.");
             result = buildingDao.update(building);
+            log.info("add sales record.");
             result = buildingDao.addSale(bs);
         } catch (SQLException e) {
             log.error(e.getMessage());
         }
 
-        return "result = " + building.toString();
+        return building;
     }
 
     @PostMapping("/api/building")
@@ -80,11 +79,28 @@ public class BuildingController {
 //                    HttpStatus.NOT_FOUND, "URL not available");
 
     }
-    @PostMapping("/api/buildings")
-    public String allBuilding(){
-        //TODO
 
-        return "";
+    @GetMapping("/api/buildings")
+    public List<Building> allBuilding() {
+        //TODO
+        List<Building> list = null;
+        try {
+            list = buildingDao.getBuildings();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return list;
+    }
+
+    @GetMapping("/api/buildingsales/{id}")
+    public Building buildingDetails(@PathVariable("id") String id) {
+        //TODO
+        Building response = null;
+        try {
+            response = buildingDao.getBuilding(Integer.parseInt(id));
+        } catch (SQLException e) {
+        }
+        return response == null ? null : response;
     }
 
 }
