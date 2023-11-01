@@ -54,8 +54,20 @@ public class ScheduledTask {
             List<Building> list = buildingDao.getBuildings();
             for (Building building : list) {
                 //Check if ts update time is more then 24 hour or not.
-                long gapTime = System.currentTimeMillis()-building.getTs().getTime();
-                if(gapTime > GAP_INTERVAL){
+                boolean exec = false;
+                long gapTime = 0;
+                if(building.getTs()==null){
+                    exec = true;
+                }else{
+                    gapTime = System.currentTimeMillis()-building.getTs().getTime();
+                    if(gapTime > GAP_INTERVAL){
+                        exec = true;
+                    }else{
+                        exec = false;
+                        log.info("No need exec ... Gap time = " + gapTime);
+                    }
+                }
+                if(exec){
                     HouseServerOB tmp = postUtil.checkUrl(building.getPreSellId(),
                             building.getYsProjectId(),
                             String.valueOf(building.getFybId()),
@@ -77,12 +89,10 @@ public class ScheduledTask {
                     } catch (SQLException e) {
                         log.error(e.getMessage());
                     }
-                }else{
-                    log.info("No need exec ... Gap time = " + gapTime);
                 }
             }
         }catch(Exception e){
-
+            log.error(e.getMessage());
         }
     }
     @Scheduled(fixedRate = 30 * 60 * 1000)
