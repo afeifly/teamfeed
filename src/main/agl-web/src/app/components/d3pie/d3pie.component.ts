@@ -1,14 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import * as d3 from 'd3';
+import {ActivatedRoute, Router} from "@angular/router";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 @Component({
   selector: 'app-d3pie',
   templateUrl: './d3pie.component.html',
   styleUrls: ['./d3pie.component.css']
 })
+
 export class D3pieComponent {
 
 
+  private pieData = [
+    {"Framework": "已备案", "Stars": "65", "Released": "2014"},
+    {"Framework": "期房待售", "Stars": "121", "Released": "2011"},
+  ];
   private svg: any;
   private lineSvg: any;
   private margin = 25;
@@ -17,15 +24,65 @@ export class D3pieComponent {
   // The radius of the pie chart is half the smallest side
   private radius = Math.min(this.width, this.height) / 2;
   private colors: any;
+  private lineData = [];
 
-  constructor() {
+  private sub: any;
+  bid: string;
+  title: string;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private http: HttpClient,
+  ) {
   }
+
 
   ngOnInit(): void {
     this.createSvg();
-    this.drawPieChart();
-    this.drawLineChart();
+    // this.drawPieChart();
+    // this.drawLineChart();
+
+    this.sub = this.activatedRoute.params.subscribe(params => {
+      this.bid = params['bid']; // (+) converts string 'id' to a number
+      this.title = params['title'];
+      console.log("::: bid="+this.bid + " t:"+this.title);
+      const headers= new HttpHeaders({'Content-Type': 'application/json'});
+      this.http.get<any>('/api/buildingsales/'+this.bid,
+        { headers }
+      ).subscribe(
+        (response) => {
+          // this.dataSource.data = response;
+          console.log(response.buildingSales);
+          this.lineData = response.buildingSales;
+          this.drawLineChart();
+
+          response.buildingSales.forEach((x,i)=>{
+            if(i==0){
+               this.pieData[0].Stars = x.sold;
+              this.pieData[1].Stars = x.unsold;
+              this.drawPieChart();
+            }
+            console.log(i);
+            console.log(x.ts);
+            console.log(x.percent);
+
+          });
+          // if(response.)
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    });
   }
+  onClickBC() {
+
+    this.router.navigate(['/buildings']);
+  }
+
+
+
 
   private createSvg(): void {
     this.svg = d3.select("figure#pie")
@@ -47,13 +104,10 @@ export class D3pieComponent {
 
   private drawPieChart(): void {
 
-    const pieData = [
-      {"Framework": "已备案", "Stars": "65", "Released": "2014"},
-      {"Framework": "期房待售", "Stars": "121", "Released": "2011"},
-    ];
+
 
     this.colors = d3.scaleOrdinal()
-      .domain(pieData.map(d => d.Stars.toString()))
+      .domain(this.pieData.map(d => d.Stars.toString()))
       .range(['#4daf4a', '#377eb8', '#ff7f00', "#c7d3ec", "#a5b8db", "#879cc4", "#677795", "#5a6782"]);
     // Compute the position of each group on the pie:
     const pie = d3.pie<any>().value((d: any) => Number(d.Stars));
@@ -62,7 +116,7 @@ export class D3pieComponent {
     // Build the pie chart
     this.svg
       .selectAll('pieces')
-      .data(pie(pieData))
+      .data(pie(this.pieData))
       .enter()
       .append('path')
       .attr('d', d3.arc()
@@ -80,7 +134,7 @@ export class D3pieComponent {
 
     this.svg
       .selectAll('pieces')
-      .data(pie(pieData))
+      .data(pie(this.pieData))
       .enter()
       .append('text')
       .text((d: any) => d.data.Framework)
@@ -90,26 +144,36 @@ export class D3pieComponent {
   }
 
   private drawLineChart(): void {
-    const data = [
-      {date: new Date('2023-01-01'), value: 266},
-      {date: new Date('2023-02-01'), value: 174},
-      {date: new Date('2023-03-01'), value: 155},
-      {date: new Date('2023-04-01'), value: 145},
-    ];
+
     const xScale = d3.scaleTime()
-      .domain(d3.extent(data, d => d['date']))
+      .domain(d3.extent(this.lineData, d => {
+        console.log("hahahahahahah");
+        console.log(d.ts.substring(0,10));
+        // return d.ts.substring(0,10);
+        return new Date(d.ts.substring(0,10));
+      }))
       .range([0, this.width]);
-    xScale.nice(1);
+    // xScale.nice(1);
 
 
     const yScale = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d['value'])])
+      // .domain([0, d3.max(this.data, d => d['percent'])])
+      .domain([0, d3.max(this.lineData, d => d.percent)])
+      .domain([0, 105])
       .range([this.height, 0]);
 
     // Create the line generator
     const line = d3.line()
-      .x(d => xScale(d['date']))
-      .y(d => yScale(d['value']));
+    .x(d => {
+      console.log("llllll");
+      console.log(d);
+      // console.log(d.ts);
+      console.log(new Date(d["ts"]));
+      console.log(new Date('2023-04-01'));
+      return xScale(new Date(d["ts"]));})
+    .y(d => yScale(d["percent"]));
+      // .x(d => xScale(d['ts']))
+      // .y(d => yScale(d['percent']));
 
     this.lineSvg.append("g")
       .attr("transform", "translate(" + this.margin + ",0)")
@@ -120,7 +184,7 @@ export class D3pieComponent {
       .call(d3.axisBottom(xScale));
 
     this.lineSvg.append("path")
-      .datum(data)
+      .datum(this.lineData)
       .attr("fill", "none")
       .attr("stroke", "steelblue")
       .attr("transform", "translate(" + this.margin + ",0)")

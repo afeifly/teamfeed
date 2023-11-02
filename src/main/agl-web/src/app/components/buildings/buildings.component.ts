@@ -19,6 +19,7 @@ export class BuildingsComponent {
               private http: HttpClient,
               ) {
   }
+
   ngOnInit() {
     const headers= new HttpHeaders({'Content-Type': 'application/json'});
     this.http.get<any>('/api/buildings',
@@ -32,5 +33,12 @@ export class BuildingsComponent {
         console.log(error);
       }
     );
+  }
+
+  handleClick(item){
+    console.log("xxxxxxxx::::");
+    console.log(item);
+
+    this.router.navigate(['/pie', {bid: item.b_id, title: item.title}]);
   }
 }

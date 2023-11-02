@@ -82,13 +82,6 @@ cd src/main/resources/static \
     "fybId": 48895,
     "buildBranch": ""
   }
-,
-  {
-    "title": "鸿荣源珈誉 8栋",
-    "preSellId": 128819,
-    "ysProjectId": 29886,
-    "fybId": 48922,
-    "buildBranch": ""
-  }
+
 ]
 ```
