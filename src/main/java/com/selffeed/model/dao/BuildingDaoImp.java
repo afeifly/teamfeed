@@ -86,7 +86,11 @@ public class BuildingDaoImp implements BuildingDao{
     @Override
     public Building getBuilding(int id) throws SQLException {
 
-        List<BuildingSales> list = jdbcTemplate.query("select sold,unsold,percent,ts from building_sales where fk_b_id="+id,
+        List<BuildingSales> list = jdbcTemplate.query("select sold,unsold,percent,ts " +
+                        "from building_sales where fk_b_id="+id+
+                        " order by id asc "
+
+                ,
             new RowMapper<BuildingSales>(){
                 @Override
                 public BuildingSales mapRow(ResultSet rs, int rowNum) throws SQLException {

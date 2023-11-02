@@ -18,13 +18,14 @@ export class D3pieComponent {
   ];
   private svg: any;
   private lineSvg: any;
-  private margin = 25;
-  private width = 320;
-  private height = 200;
+  private margin = 20;
+  private width = 550;
+  private height = 230;
   // The radius of the pie chart is half the smallest side
   private radius = Math.min(this.width, this.height) / 2;
   private colors: any;
   private lineData = [];
+  updateDate: any;
 
   private sub: any;
   bid: string;
@@ -39,9 +40,8 @@ export class D3pieComponent {
 
 
   ngOnInit(): void {
+    this.updateDate = "";
     this.createSvg();
-    // this.drawPieChart();
-    // this.drawLineChart();
 
     this.sub = this.activatedRoute.params.subscribe(params => {
       this.bid = params['bid']; // (+) converts string 'id' to a number
@@ -58,10 +58,13 @@ export class D3pieComponent {
           this.drawLineChart();
 
           response.buildingSales.forEach((x,i)=>{
-            if(i==0){
+
+            if(i==(response.buildingSales.length-1)){
                this.pieData[0].Stars = x.sold;
               this.pieData[1].Stars = x.unsold;
               this.drawPieChart();
+              //TODO update time
+              this.updateDate = x.ts;
             }
             console.log(i);
             console.log(x.ts);
@@ -92,7 +95,8 @@ export class D3pieComponent {
       .append("g")
       .attr(
         "transform",
-        "translate(" + (this.width + this.margin) / 2 + "," + (this.height + this.margin) / 2 + ")"
+        // "translate(" + (this.width + this.margin) / 2 + "," + (this.height + this.margin) / 2 + ")"
+    "translate(" + (this.width/2 + this.margin) / 2 + "," + (this.height + this.margin) / 2 + ")"
       );
     this.lineSvg = d3.select("figure#lineC")
       .append("svg")
@@ -104,12 +108,9 @@ export class D3pieComponent {
 
   private drawPieChart(): void {
 
-
-
     this.colors = d3.scaleOrdinal()
       .domain(this.pieData.map(d => d.Stars.toString()))
       .range(['#4daf4a', '#377eb8', '#ff7f00', "#c7d3ec", "#a5b8db", "#879cc4", "#677795", "#5a6782"]);
-    // Compute the position of each group on the pie:
     const pie = d3.pie<any>().value((d: any) => Number(d.Stars));
     pie.padAngle(0.02);
 
@@ -140,7 +141,7 @@ export class D3pieComponent {
       .text((d: any) => d.data.Framework)
       .attr("transform", (d: any) => "translate(" + labelLocation.centroid(d) + ")")
       .style("text-anchor", "middle")
-      .style("font-size", 15);
+      .style("font-size", 12);
   }
 
   private drawLineChart(): void {
@@ -149,10 +150,11 @@ export class D3pieComponent {
       .domain(d3.extent(this.lineData, d => {
         console.log("hahahahahahah");
         console.log(d.ts.substring(0,10));
-        // return d.ts.substring(0,10);
-        return new Date(d.ts.substring(0,10));
+        // return new Date(d.ts.substring(0,10));
+        return new Date(d.ts);
       }))
       .range([0, this.width]);
+    // xScale.invert(4);
     // xScale.nice(1);
 
 

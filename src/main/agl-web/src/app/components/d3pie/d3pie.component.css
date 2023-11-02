@@ -1,9 +1,9 @@
 .chart-grid{
   display: grid;
-   grid-template-columns: repeat(auto-fill, 380px);
+   grid-template-columns: repeat(auto-fill, 450px);
 }
 .basic{
-  padding: 15px;
+  padding: 5px;
 }
 .bord-font{
   font-weight: bolder;

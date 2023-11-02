@@ -2,10 +2,10 @@
 
   <a href="javascript:void(0)" (click)="onClickBC()" >
   深圳房事监控
-  </a></span> <span> {{this.title}}</span></p>
+  </a></span> <span> {{this.title }}</span></p>
 
 <div class="chart-grid" >
     <figure id="pie"></figure>
     <figure id="lineC"></figure>
 </div>
-
+<p class="basic"> Latest update time : {{this.updateDate | date: 'yyyy-MM-dd hh:mm'}}</p>

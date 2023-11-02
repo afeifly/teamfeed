@@ -39,6 +39,6 @@ export class BuildingsComponent {
     console.log("xxxxxxxx::::");
     console.log(item);
 
-    this.router.navigate(['/pie', {bid: item.b_id, title: item.title}]);
+    this.router.navigate(['/pie', {bid: item.b_id, title: item.title+" "+item.buildBranch}]);
   }
 }
