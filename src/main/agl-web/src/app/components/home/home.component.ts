@@ -22,7 +22,6 @@ export class HomeComponent {
     this.http.get<any>('/api/feeds').subscribe(
       (response) => {
         this.dataSource.data = response;
-        console.log(response);
       },
       (error) => {
         console.log(error);
@@ -30,7 +29,6 @@ export class HomeComponent {
     );
   }
   onClickFeed(fid,title){
-    console.log("click "+fid+" "+title);
     this.router.navigate(['/articles', {fid: fid, title: title}]);
   }
 

@@ -47,27 +47,22 @@ export class ArticlesComponent {
   }
   ngOnInit() {
 
-    //TODO
     this.innerWidth = window.innerWidth;
-    console.log(this.innerWidth);
     if(this.innerWidth<700){
       this.displayedColumns.splice(0,1);
     }else{
     }
 
-    // this.snackBar.open('width = '+innerWidth,'OK');
     this.sub = this.activatedRoute.params.subscribe(params => {
       this.fid = params['fid']; // (+) converts string 'id' to a number
       this.title = params['title'];
       this.uid = sessionStorage.getItem('user-id');
       if(this.fid == null){
 
-        //TODO goto history
         this.onClickGetBack();
         return ;
       }
 
-      console.log("::: fid="+this.fid + " uid="+this.uid +" title="+this.title);
       const headers= new HttpHeaders({'Content-Type': 'application/json'});
       this.http.post<any>('/api/fetch_articles',
         {u_id: this.uid,f_id: this.fid},
@@ -75,7 +70,6 @@ export class ArticlesComponent {
       ).subscribe(
         (response) => {
           this.dataSource.data = response;
-          console.log(response);
         },
         (error) => {
           console.log(error);
@@ -88,20 +82,9 @@ export class ArticlesComponent {
 
   onClickDialog(id,title,content){
 
-    //TODO  not content, need detail
-    console.log(":"+content);
     if(this.uid==null){
-      // console.log("to login")
-      // this.userService.userLoggedIn.next(false);
       this.router.navigate(['/login']);
     }
-    // let tmp = content.replaceAll('<img ', '<img style="width: ' +
-    //   (this.innerWidth-55)+'px; height: auto !important;" ');
-
-
-
-    // content = this.translate.bypassSecurityTrustHtml(tmp);
-    // title = title +"zzzx xd";
 
     this.sub = this.activatedRoute.params.subscribe(params => {
       const headers= new HttpHeaders({'Content-Type': 'application/json'});
@@ -111,28 +94,15 @@ export class ArticlesComponent {
       ).subscribe(
         (response) => {
           if(response>2){
-            //TODO send quest to content
-            this.http.get<any>('/api/article/'+id,
-            ).subscribe(
-              (response) => {
-                let tmp = response.content.replaceAll('<img ', '<img style="width: ' +
-                  (this.innerWidth-55)+'px; height: auto !important;" ');
-                //Can open and read.
-                sessionStorage.setItem('attack',response);
-                this.router.navigate(['/detail',
+
+            sessionStorage.setItem('attack',response);
+            this.router.navigate(['/detail',
                   {a_id: id,
                     title: title,
-                    content: tmp
+                    // content: tmp
                   }]);
 
-              },
-              (error) => {
-                console.log(error);
-              }
-            );
-
           }else{
-            //TODO not only strength less maybe not login
             this.snackBar.open('体力耗尽, 明天再来吧. 多赞多留言,强身健体.', 'OK', {duration: 2000});
           }
 
@@ -140,7 +110,6 @@ export class ArticlesComponent {
         },
         (error) => {
           console.log(error);
-          //TODO error and return;
         }
       );
     });
@@ -150,7 +119,6 @@ export class ArticlesComponent {
   }
 
   onClickGetBack() {
-    //TODO get history
     this.sub = this.activatedRoute.params.subscribe(params => {
       this.uid = sessionStorage.getItem('user-id');
       const headers= new HttpHeaders({'Content-Type': 'application/json'});
@@ -160,7 +128,6 @@ export class ArticlesComponent {
       ).subscribe(
         (response) => {
           this.dataSource.data = response;
-          console.log(response);
         },
         (error) => {
           console.log(error);

@@ -31,7 +31,6 @@ export class LogInComponent {
       this.snackBar.open('Password is required, and should be more than 5 chars', 'OK', {duration: 2000});
       return;
     }
-    console.log('Button was clicked!');
     const headers= new HttpHeaders({'Content-Type': 'application/json'});
     this.http.post<any>('/api/login',
       {username: this.username,psw: this.password},
@@ -42,7 +41,6 @@ export class LogInComponent {
           this.snackBar.open('密码错误?', 'OK', {duration: 2000});
           return;
         }
-        console.log(response);
         sessionStorage.setItem('user', response.nickname);
         sessionStorage.setItem('user-icon', response.iconIndex);
         sessionStorage.setItem('user-id', response.u_id);

@@ -46,14 +46,12 @@ export class D3pieComponent {
     this.sub = this.activatedRoute.params.subscribe(params => {
       this.bid = params['bid']; // (+) converts string 'id' to a number
       this.title = params['title'];
-      console.log("::: bid="+this.bid + " t:"+this.title);
       const headers= new HttpHeaders({'Content-Type': 'application/json'});
       this.http.get<any>('/api/buildingsales/'+this.bid,
         { headers }
       ).subscribe(
         (response) => {
           // this.dataSource.data = response;
-          console.log(response.buildingSales);
           this.lineData = response.buildingSales;
           this.drawLineChart();
 
@@ -63,15 +61,9 @@ export class D3pieComponent {
                this.pieData[0].Stars = x.sold;
               this.pieData[1].Stars = x.unsold;
               this.drawPieChart();
-              //TODO update time
               this.updateDate = x.ts;
             }
-            console.log(i);
-            console.log(x.ts);
-            console.log(x.percent);
-
           });
-          // if(response.)
         },
         (error) => {
           console.log(error);
@@ -95,7 +87,6 @@ export class D3pieComponent {
       .append("g")
       .attr(
         "transform",
-        // "translate(" + (this.width + this.margin) / 2 + "," + (this.height + this.margin) / 2 + ")"
     "translate(" + (this.width/2 + this.margin) / 2 + "," + (this.height + this.margin) / 2 + ")"
       );
     this.lineSvg = d3.select("figure#lineC")
@@ -148,18 +139,11 @@ export class D3pieComponent {
 
     const xScale = d3.scaleTime()
       .domain(d3.extent(this.lineData, d => {
-        console.log("hahahahahahah");
-        console.log(d.ts.substring(0,10));
-        // return new Date(d.ts.substring(0,10));
         return new Date(d.ts);
       }))
       .range([0, this.width]);
-    // xScale.invert(4);
-    // xScale.nice(1);
-
 
     const yScale = d3.scaleLinear()
-      // .domain([0, d3.max(this.data, d => d['percent'])])
       .domain([0, d3.max(this.lineData, d => d.percent)])
       .domain([0, 105])
       .range([this.height, 0]);
@@ -167,15 +151,8 @@ export class D3pieComponent {
     // Create the line generator
     const line = d3.line()
     .x(d => {
-      console.log("llllll");
-      console.log(d);
-      // console.log(d.ts);
-      console.log(new Date(d["ts"]));
-      console.log(new Date('2023-04-01'));
       return xScale(new Date(d["ts"]));})
     .y(d => yScale(d["percent"]));
-      // .x(d => xScale(d['ts']))
-      // .y(d => yScale(d['percent']));
 
     this.lineSvg.append("g")
       .attr("transform", "translate(" + this.margin + ",0)")

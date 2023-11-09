@@ -71,7 +71,6 @@ export class AppComponent {
         this.uid = sessionStorage.getItem("user-id");
         this.icon_index = sessionStorage.getItem("user-icon");
         this.attack = parseInt(sessionStorage.getItem("attack"));
-        console.log("ic == "+ this.icon_index);
       }else{
         this.nickname = "";
         this.icon_index = "";
@@ -79,7 +78,6 @@ export class AppComponent {
     });
   }
   onClickHome(){
-    console.log('home') ;
     this.sidenav.close();
     if(sessionStorage.getItem("user") != null ) {
       this.userService.userLoggedIn.next(true);
@@ -117,7 +115,6 @@ export class AppComponent {
         },
         (error) => {
           console.log(error);
-          //TODO error and return;
         }
       );
     });

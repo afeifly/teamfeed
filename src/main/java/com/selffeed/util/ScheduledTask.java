@@ -32,6 +32,8 @@ import java.util.List;
 @Slf4j
 public class ScheduledTask {
 
+    public final static long GAP_INTERVAL = 24 * 60 * 60 * 1000;
+
     @Autowired
     FeedDao feedDao;
 
@@ -45,9 +47,8 @@ public class ScheduledTask {
 
     @Autowired
     PostUtil postUtil;
-    public final static long GAP_INTERVAL = 24 * 60 * 60 * 1000;
-//    public final static long GAP_INTERVAL = 60 * 1000;
-    @Scheduled(fixedRate = GAP_INTERVAL)
+
+    @Scheduled(fixedRate = 5 * 60 * 60 * 1000)
     public void fetchBuildingInfo() {
         log.info("exec building check schedule.");
         try{
@@ -97,9 +98,9 @@ public class ScheduledTask {
     }
     @Scheduled(fixedRate = 30 * 60 * 1000)
     public void fetchRSS() {
-        log.info("exec schedule.");
+        log.info("exec rss fetch schedule.");
         //TODO will delete later
-        if(1==1) return ;
+        //if(1==1) return ;
 
         try {
             userDao.increaseAllAttack();

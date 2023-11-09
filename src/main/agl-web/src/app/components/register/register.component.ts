@@ -43,7 +43,6 @@ export class RegisterComponent {
       { headers }
     ).subscribe(
       (response) => {
-        console.log(response);
         this.snackBar.open('Register successful.', 'OK', {duration: 2000});
         this.userService.userLoggedIn.next(false);
         this.router.navigate(['/login']);

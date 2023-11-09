@@ -26,7 +26,6 @@ export class BuildingsComponent {
       { headers }
     ).subscribe(
       (response) => {
-        console.log(response);
         this.array = response;
       },
       (error) => {
@@ -36,8 +35,6 @@ export class BuildingsComponent {
   }
 
   handleClick(item){
-    console.log("xxxxxxxx::::");
-    console.log(item);
 
     this.router.navigate(['/pie', {bid: item.b_id, title: item.title+" "+item.buildBranch}]);
   }
