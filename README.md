@@ -1,8 +1,16 @@
- docker run --name my-postgres -e POSTGRES_PASSWORD=xuffei -p 15432:5432 -d postgres:15
+## RUN postgres
+docker run --name my-postgres -e POSTGRES_PASSWORD=xuffei -p 15432:5432 -d postgres:15
+
+## Maintain
 docker exec -it my-postgres psql -U postgres -d postgres -h 127.0.0.1 -c "create DATABASE selffeed;"
+docker exec -it my-postgres psql -U postgres -d postgres -h 127.0.0.1 -d selffeed -c "select * from users order by id;"
+
+## backup DB & restore
+docker exec -t my-postgres pg_dump -c -U postgres selffeed > /root/dump.sql
+docker exec -u postgres my-postgres_postgres_1 psql selffeed postgres -f /tmp/dump.sql
 
 
- ng build --configuration production
+ng build --configuration production
 
 
  src:
